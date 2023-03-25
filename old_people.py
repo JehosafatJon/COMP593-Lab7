@@ -6,6 +6,7 @@ Description:
 Usage:
  python old_people.py
 """
+
 import os
 import inspect
 import sqlite3
@@ -32,8 +33,8 @@ def get_old_people():
     Returns:
         list: (name, age) of old people 
     """
-    # TODO: Create function body
 
+    # Connect to DB and get cursor
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
@@ -43,19 +44,16 @@ def get_old_people():
     WHERE age > 50
     """
 
-    # Define tuple of data for album to search for in albums table
-    # Data values must be in same order as specified in query
-
-    # Execute query to add new album to albums table
+    # Execute query to fetch all people above age 50
     cur.execute(find_people_query)
     query_result = cur.fetchall()
     con.close()
 
-    # Return the album ID if album is present in the DB
+    # Return the list of people over 50's name and age if present in the DB
     if query_result is not None:
         return query_result
 
-    # Return 0 if album is not present in the DB
+    # Return 0 if nobody is older than 50 in the DB
     return 0
 
 def print_name_and_age(name_and_age_list):
@@ -64,10 +62,9 @@ def print_name_and_age(name_and_age_list):
     Args:
         name_and_age_list (list): (name, age) of people
     """
-    # TODO: Create function body
 
-    for person in name_and_age_list:
-        print(f"{person[0]} is {person[1]} years old.")
+    for person_info in name_and_age_list:
+        print(f"{person_info[0]} is {person_info[1]} years old.")
 
     return
 
@@ -78,7 +75,6 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
         name_and_age_list (list): (name, age) of people
         csv_path (str): Path of CSV file
     """
-    # TODO: Create function body
 
     pandas_df = pandas.DataFrame(name_and_age_list)
     pandas_df.to_csv(csv_path, index=False, header=None)
